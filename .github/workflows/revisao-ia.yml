@@ -17,13 +17,15 @@ jobs:
           node-version: 22
       - run: npm install -g @github/copilot
       - name: Monta o prompt
+        env:
+          BASE_REF: ${{ github.base_ref }}
         run: |
           {
             echo "Revise o diff de um site com Cloudflare Pages Functions e D1."
             echo "Aponte, em português e em até 10 itens: segredos expostos,"
             echo "SQL montado por concatenação em vez de prepare().bind(), e erros de lógica."
             echo '```diff'
-            git diff origin/${{ github.base_ref }}...HEAD | head -c 20000
+            git diff "origin/$BASE_REF"...HEAD | head -c 20000
             echo '```'
           } > prompt.txt
       - id: ia
